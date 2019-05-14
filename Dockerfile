@@ -37,19 +37,13 @@ RUN cd /opt && \
     ln -s sdk-tools-linux-4333796 android-sdk
 
 # Setup
-# RUN sudo vim /etc/profile.d/android-sdk-env.sh
-
 ENV ANDROID_HOME="/opt/android-sdk"
 ENV PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:/opt/gradle/gradle-4.10.3/bin:$PATH"
-
 ENV JAVA_HOME /etc/alternatives/jre
 
 #Fix bug in angular 
 ENV NODE_OPTIONS=--max_old_space_size=4096
 
-# sudo source /etc/profile.d/android-sdk-env.sh
-
-#CMD ["yes","|","$ANDROID_HOME/tools/bin/sdkmanager","--licenses"]
 RUN yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
 
 # cd /opt/android-sdk/tools
@@ -57,7 +51,6 @@ RUN yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
 RUN $ANDROID_HOME/tools/bin/sdkmanager --update
 
 # Andoid studio build tools
-# RUN echo y | android update sdk --no-ui --filter build-tools-24.0.0,android-24
 RUN echo y | android update sdk --no-ui --filter build-tools-26.0.0,android-26
 RUN echo y | android update sdk --no-ui --filter platform-tools,tools
 
@@ -82,4 +75,4 @@ RUN wget https://github.com/rbadamsjr/Ionic3Project/archive/master.zip && \
 	ionic cordova build android --prod && \
 	rm -rf /tmp/Ionic3Project-master
 
-ENTRYPOINT ["sh","/scripts/entrypoint.sh"]
+#ENTRYPOINT ["sh","/scripts/entrypoint.sh"]
