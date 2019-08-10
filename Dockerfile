@@ -6,7 +6,7 @@ RUN yum -y update
 
 RUN yum -y install make unzip wget gcc gcc-c++ install java-1.8.0-openjdk-devel && yum -y clean all
 
-ENV NODEJS_VERSION=v10.16.0
+ENV NODEJS_VERSION=v10.6.0
 ENV PATH=/apps/node/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin
 
 RUN mkdir -p /apps
