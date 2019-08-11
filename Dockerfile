@@ -4,10 +4,13 @@ MAINTAINER Smart Ideas, llc. <roland.adams@smartideasllc.net>
 
 RUN yum -y update
 
-RUN yum -y install make unzip wget gcc gcc-c++ install java-1.8.0-openjdk-devel && yum -y clean all
+RUN yum -y install make unzip wget gcc gcc-c++ install java-1.8.0-openjdk-devel git && yum -y clean all
 
-ENV NODEJS_VERSION=v10.6.0
+ENV NODEJS_VERSION=v10.16.2
 ENV PATH=/apps/node/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin
+
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+ENV PATH=$PATH:/home/node/.npm-global/bin
 
 RUN mkdir -p /apps
 RUN cd /apps && \
@@ -15,9 +18,9 @@ RUN cd /apps && \
 RUN cd /apps && \
 	mv node-${NODEJS_VERSION}-linux-x64 node
 
-RUN npm install -g ionic cordova
 
-RUN yum install -y git
+RUN npm install -g ionic cordova
+#RUN npm install -g cordova-res
 
 # Setup andriod studio
 RUN mkdir -p /opt/sdk-tools-linux-4333796 && \
@@ -68,11 +71,14 @@ RUN wget https://github.com/rbadamsjr/Ionic3Project/archive/master.zip && \
     mkdir -p /tmp/ && \
     unzip -d /tmp/ master.zip && \
     rm -rf master.zip &&\
-	cd /tmp/Ionic3Project-master &&\
-	npm install && \
-	ionic cordova platform remove android && \
-	ionic cordova platform add android && \
-	ionic cordova build android --prod && \
-	rm -rf /tmp/Ionic3Project-master
+    cd /tmp/Ionic3Project-master &&\
+    npm install && \
+    ionic cordova platform remove android && \
+    ionic cordova platform add android && \
+    ionic cordova build android --prod && \
+    rm -rf /tmp/Ionic3Project-master
+
+RUN ["ionic","info"]
+
 
 #ENTRYPOINT ["sh","/scripts/entrypoint.sh"]
