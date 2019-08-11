@@ -19,8 +19,9 @@ RUN cd /apps && \
 	mv node-${NODEJS_VERSION}-linux-x64 node
 
 
-RUN npm install -g ionic cordova
-#RUN npm install -g cordova-res
+RUN npm install -g ionic cordova && \
+    chown -R $(whoami) ${NPM_CONFIG_PREFIX} && \
+    npm install -g cordova-res --unsafe-perm
 
 # Setup andriod studio
 RUN mkdir -p /opt/sdk-tools-linux-4333796 && \
